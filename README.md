@@ -1,1 +1,1 @@
-# ze-calculator
+# Ze Calculator
