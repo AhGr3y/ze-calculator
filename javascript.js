@@ -1,74 +1,80 @@
 const operators = ["+", "-", "*", "/"];
 
-let numA;
-let numB;
-let operator;
+let collatedInput = document.querySelector("#collated-input");
+let input = document.querySelector("#input");
 
-let displayContent = document.querySelector("#display-content");
+updateInputDisplay("0");
+
+const zero = document.querySelector("#zero");
+zero.addEventListener("click", (e) => {
+    if (String(input.textContent) === "0") {
+        return;
+    }
+    appendInputDisplay(zero.value);
+});
 
 const one = document.querySelector("#one");
 one.addEventListener("click", (e) => {
-    appendDisplay(one.value);
+    appendInputDisplay(one.value);
 });
 
 const two = document.querySelector("#two");
 two.addEventListener("click", (e) => {
-    appendDisplay(two.value);
+    appendInputDisplay(two.value);
 });
 
 const three = document.querySelector("#three");
 three.addEventListener("click", (e) => {
-    appendDisplay(three.value);
+    appendInputDisplay(three.value);
 });
 
 const four = document.querySelector("#four");
 four.addEventListener("click", (e) => {
-    appendDisplay(four.value);
+    appendInputDisplay(four.value);
 });
 
 const five = document.querySelector("#five");
 five.addEventListener("click", (e) => {
-    appendDisplay(five.value);
+    appendInputDisplay(five.value);
 });
 
 const six = document.querySelector("#six");
 six.addEventListener("click", (e) => {
-    appendDisplay(six.value);
+    appendInputDisplay(six.value);
 });
 
 const seven = document.querySelector("#seven");
 seven.addEventListener("click", (e) => {
-    appendDisplay(seven.value);
+    appendInputDisplay(seven.value);
 });
 
 const eight = document.querySelector("#eight");
 eight.addEventListener("click", (e) => {
-    appendDisplay(eight.value);
+    appendInputDisplay(eight.value);
 });
 
 const nine = document.querySelector("#nine");
 nine.addEventListener("click", (e) => {
-    appendDisplay(nine.value);
+    appendInputDisplay(nine.value);
 });
 
 const period = document.querySelector("#period");
 period.addEventListener("click", (e) => {
-    if (!String(displayContent.textContent).includes(".")) {
-        appendDisplay(period.value);
+    if (!String(input.textContent).includes(".")) {
+        appendInputDisplay(period.value);
     }
 });
 
 const ac = document.querySelector("#clear");
 ac.addEventListener("click", (e) => {
-    updateDisplay("0");
+    updateInputDisplay("0");
+    updateCollatedInputDisplay("");
 });
 
 const del = document.querySelector("#delete");
 del.addEventListener("click", (e) => {
     deleteDisplayFromRight();
 });
-
-updateDisplay("0");
 
 function add(a, b) {
     return a + b;
@@ -104,30 +110,38 @@ function extractInputParts(input) {
     return operands;
 }
 
-function updateDisplay(data) {
+function updateCollatedInputDisplay(data) {
+    collatedInput.textContent = data;
+}
+
+function appendCollatedInputDisplay(data) {
+    collatedInput.textContent += data;
+}
+
+function updateInputDisplay(data) {
     if (typeof data === "number" && isFloat(data)) {
-        displayContent.textContent = data.toFixed(4);
+        input.textContent = data.toFixed(4);
         return
     }
 
-    displayContent.textContent = data;
+    input.textContent = data;
 }
 
-function appendDisplay(data) {
-    if (displayContent.textContent === "0") {
-        updateDisplay(data);
+function appendInputDisplay(data) {
+    if (input.textContent === "0") {
+        updateInputDisplay(data);
         return;
     }
-    displayContent.textContent += data;
+    input.textContent += data;
     return;
 }
 
 function deleteDisplayFromRight() {
-    let displayString = String(displayContent.textContent);
+    let displayString = String(input.textContent);
     if (displayString.length > 1) {
-        updateDisplay(displayString.slice(0, -1));
+        updateInputDisplay(displayString.slice(0, -1));
     } else if (displayString.length === 1) {
-        updateDisplay("0");
+        updateInputDisplay("0");
     }
 }
 
@@ -143,7 +157,7 @@ function operate(input) {
     let operator;
 
     if (inputParts.length === 1) {
-        updateDisplay(displayContent, a);
+        updateInputDisplay(input, a);
         return;
     }
 
@@ -154,23 +168,23 @@ function operate(input) {
 
     switch(operator) {
         case "+":
-            updateDisplay(add(a, b));
+            updateInputDisplay(add(a, b));
             return;
         case "-":
-            updateDisplay(subtract(a, b));
+            updateInputDisplay(subtract(a, b));
             return;
         case "*":
-            updateDisplay(multiply(a, b));
+            updateInputDisplay(multiply(a, b));
             return;
         case "/":
             if (b === 0) {
-                updateDisplay("baka");
+                updateInputDisplay("baka");
                 return;
             }
-            updateDisplay(divide(a, b));
+            updateInputDisplay(divide(a, b));
             return;
         default:
-            updateDisplay("err");
+            updateInputDisplay("err");
             return;
     }
 }
