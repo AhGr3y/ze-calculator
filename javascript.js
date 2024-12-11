@@ -170,7 +170,7 @@ addButton.addEventListener("click", (e) => {
 
     if (String(collatedInput.textContent).slice(-2, -1) === operator) {
         if (lastPressedButtonType === buttonType.OPERATOR) {
-            collatedInput.textContent = collatedInput.textContent.replace(operator, "+");
+            collatedInput.textContent = collatedInput.textContent.replace(` ${operator} `, " + ");
             lastPressedButtonType = buttonType.OPERATOR;
             return;
         }
@@ -202,7 +202,7 @@ subtractButton.addEventListener("click", (e) => {
 
     if (String(collatedInput.textContent).slice(-2, -1) === operator) {
         if (lastPressedButtonType === buttonType.OPERATOR) {
-            collatedInput.textContent = collatedInput.textContent.replace(operator, "-");
+            collatedInput.textContent = collatedInput.textContent.replace(` ${operator} `, " - ");
             lastPressedButtonType = buttonType.OPERATOR;
             return;
         }
@@ -233,7 +233,7 @@ multiplyButton.addEventListener("click", (e) => {
 
     if (String(collatedInput.textContent).slice(-2, -1) === operator) {
         if (lastPressedButtonType === buttonType.OPERATOR) {
-            collatedInput.textContent = collatedInput.textContent.replace(operator, "*");
+            collatedInput.textContent = collatedInput.textContent.replace(` ${operator} `, " * ");
             lastPressedButtonType = buttonType.OPERATOR;
             return;
         }
@@ -264,7 +264,7 @@ divideButton.addEventListener("click", (e) => {
 
     if (String(collatedInput.textContent).slice(-2, -1) === operator) {
         if (lastPressedButtonType === buttonType.OPERATOR) {
-            collatedInput.textContent = collatedInput.textContent.replace(operator, "/");
+            collatedInput.textContent = collatedInput.textContent.replace(` ${operator} `, " / ");
             lastPressedButtonType = buttonType.OPERATOR;
             return;
         }
