@@ -1,5 +1,12 @@
 const operators = ["+", "-", "*", "/"];
+const buttonType = {
+    NUMBER: "number",
+    OPERATOR: "operator",
+    DELETOR: "deletor",
+    OTHER: "other",
+};
 
+let lastPressedButtonType = "";
 let collatedInput = document.querySelector("#collated-input");
 let input = document.querySelector("#input");
 
@@ -7,61 +14,134 @@ updateInputDisplay("0");
 
 const zero = document.querySelector("#zero");
 zero.addEventListener("click", (e) => {
+    if (lastPressedButtonType === buttonType.OPERATOR) {
+        updateInputDisplay(zero.value);
+        lastPressedButtonType = buttonType.NUMBER;
+        return;
+    }
     if (String(input.textContent) === "0") {
+        lastPressedButtonType = buttonType.NUMBER;
         return;
     }
     appendInputDisplay(zero.value);
+    lastPressedButtonType = buttonType.NUMBER;
 });
 
 const one = document.querySelector("#one");
 one.addEventListener("click", (e) => {
+    if (lastPressedButtonType === buttonType.OPERATOR) {
+        updateInputDisplay(one.value);
+        lastPressedButtonType = buttonType.NUMBER;
+        return;
+    }
     appendInputDisplay(one.value);
+    lastPressedButtonType = buttonType.NUMBER;
 });
 
 const two = document.querySelector("#two");
 two.addEventListener("click", (e) => {
+    if (lastPressedButtonType === buttonType.OPERATOR) {
+        updateInputDisplay(two.value);
+        lastPressedButtonType = buttonType.NUMBER;
+        return;
+    }
     appendInputDisplay(two.value);
+    lastPressedButtonType = buttonType.NUMBER;
 });
 
 const three = document.querySelector("#three");
 three.addEventListener("click", (e) => {
+    if (lastPressedButtonType === buttonType.OPERATOR) {
+        updateInputDisplay(three.value);
+        lastPressedButtonType = buttonType.NUMBER;
+        return;
+    }
     appendInputDisplay(three.value);
+    lastPressedButtonType = buttonType.NUMBER;
 });
 
 const four = document.querySelector("#four");
 four.addEventListener("click", (e) => {
+    if (lastPressedButtonType === buttonType.OPERATOR) {
+        updateInputDisplay(four.value);
+        lastPressedButtonType = buttonType.NUMBER;
+        return;
+    }
     appendInputDisplay(four.value);
+    lastPressedButtonType = buttonType.NUMBER;
 });
 
 const five = document.querySelector("#five");
 five.addEventListener("click", (e) => {
+    if (lastPressedButtonType === buttonType.OPERATOR) {
+        updateInputDisplay(five.value);
+        lastPressedButtonType = buttonType.NUMBER;
+        return;
+    }
     appendInputDisplay(five.value);
+    lastPressedButtonType = buttonType.NUMBER;
 });
 
 const six = document.querySelector("#six");
 six.addEventListener("click", (e) => {
+    if (lastPressedButtonType === buttonType.OPERATOR) {
+        updateInputDisplay(six.value);
+        lastPressedButtonType = buttonType.NUMBER;
+        return;
+    }
     appendInputDisplay(six.value);
+    lastPressedButtonType = buttonType.NUMBER;
 });
 
 const seven = document.querySelector("#seven");
 seven.addEventListener("click", (e) => {
+    if (lastPressedButtonType === buttonType.OPERATOR) {
+        updateInputDisplay(seven.value);
+        lastPressedButtonType = buttonType.NUMBER;
+        return;
+    }
     appendInputDisplay(seven.value);
+    lastPressedButtonType = buttonType.NUMBER;
 });
 
 const eight = document.querySelector("#eight");
 eight.addEventListener("click", (e) => {
+    if (lastPressedButtonType === buttonType.OPERATOR) {
+        updateInputDisplay(eight.value);
+        lastPressedButtonType = buttonType.NUMBER;
+        return;
+    }
     appendInputDisplay(eight.value);
+    lastPressedButtonType = buttonType.NUMBER;
 });
 
 const nine = document.querySelector("#nine");
 nine.addEventListener("click", (e) => {
+    if (lastPressedButtonType === buttonType.OPERATOR) {
+        updateInputDisplay(nine.value);
+        lastPressedButtonType = buttonType.NUMBER;
+        return;
+    }
     appendInputDisplay(nine.value);
+    lastPressedButtonType = buttonType.NUMBER;
 });
 
 const period = document.querySelector("#period");
 period.addEventListener("click", (e) => {
+    if (lastPressedButtonType === "" || lastPressedButtonType === buttonType.OPERATOR) {
+        updateInputDisplay("0.");
+        lastPressedButtonType = buttonType.OTHER;
+        return;
+    }
+    if (lastPressedButtonType === buttonType.DELETOR && input.textContent === "0") {
+        updateInputDisplay("0.");
+        lastPressedButtonType = buttonType.OTHER;
+        return;
+    }
     if (!String(input.textContent).includes(".")) {
         appendInputDisplay(period.value);
+        lastPressedButtonType = buttonType.OTHER;
+        return;
     }
 });
 
@@ -69,45 +149,237 @@ const ac = document.querySelector("#clear");
 ac.addEventListener("click", (e) => {
     updateInputDisplay("0");
     updateCollatedInputDisplay("");
+    lastPressedButtonType = buttonType.DELETOR;
 });
 
 const del = document.querySelector("#delete");
 del.addEventListener("click", (e) => {
     deleteDisplayFromRight();
+    lastPressedButtonType = buttonType.DELETOR;
+});
+
+const addButton = document.querySelector("#add");
+addButton.addEventListener("click", (e) => {
+    if (collatedInput.textContent === "") {
+        updateCollatedInputDisplay(`${input.textContent} + `);
+        lastPressedButtonType = buttonType.OPERATOR;
+        return;
+    }
+
+    let operator = extractOperator(collatedInput.textContent);
+
+    if (String(collatedInput.textContent).slice(-2, -1) === operator) {
+        if (lastPressedButtonType === buttonType.OPERATOR) {
+            collatedInput.textContent = collatedInput.textContent.replace(operator, "+");
+            lastPressedButtonType = buttonType.OPERATOR;
+            return;
+        }
+        if (lastPressedButtonType === buttonType.NUMBER) {
+            let collatedInputText = collatedInput.textContent + input.textContent;
+            let result = operate(collatedInputText);
+            updateCollatedInputDisplay(`${result} + `);
+            updateInputDisplay(result);
+            lastPressedButtonType = buttonType.OPERATOR;
+            return;
+        }  
+    }
+
+    // Scenario where collatedInputDisplay looks like 'a + b ='
+    updateCollatedInputDisplay(`${input.textContent} + `);
+    lastPressedButtonType = buttonType.OPERATOR;
+    return;
+});
+
+const subtractButton = document.querySelector("#subtract");
+subtractButton.addEventListener("click", (e) => {
+    if (collatedInput.textContent === "") {
+        updateCollatedInputDisplay(`${input.textContent} - `);
+        lastPressedButtonType = buttonType.OPERATOR;
+        return;
+    }
+
+    let operator = extractOperator(collatedInput.textContent);
+
+    if (String(collatedInput.textContent).slice(-2, -1) === operator) {
+        if (lastPressedButtonType === buttonType.OPERATOR) {
+            collatedInput.textContent = collatedInput.textContent.replace(operator, "-");
+            lastPressedButtonType = buttonType.OPERATOR;
+            return;
+        }
+        if (lastPressedButtonType === buttonType.NUMBER) {
+            let collatedInputText = collatedInput.textContent + input.textContent;
+            let result = operate(collatedInputText);
+            updateCollatedInputDisplay(`${result} - `);
+            updateInputDisplay(result);
+            lastPressedButtonType = buttonType.OPERATOR;
+            return;
+        }  
+    }
+
+    updateCollatedInputDisplay(`${input.textContent} - `);
+    lastPressedButtonType = buttonType.OPERATOR;
+    return;
+});
+
+const multiplyButton = document.querySelector("#multiply");
+multiplyButton.addEventListener("click", (e) => {
+    if (collatedInput.textContent === "") {
+        updateCollatedInputDisplay(`${input.textContent} * `);
+        lastPressedButtonType = buttonType.OPERATOR;
+        return;
+    }
+
+    let operator = extractOperator(collatedInput.textContent);
+
+    if (String(collatedInput.textContent).slice(-2, -1) === operator) {
+        if (lastPressedButtonType === buttonType.OPERATOR) {
+            collatedInput.textContent = collatedInput.textContent.replace(operator, "*");
+            lastPressedButtonType = buttonType.OPERATOR;
+            return;
+        }
+        if (lastPressedButtonType === buttonType.NUMBER) {
+            let collatedInputText = collatedInput.textContent + input.textContent;
+            let result = operate(collatedInputText);
+            updateCollatedInputDisplay(`${result} * `);
+            updateInputDisplay(result);
+            lastPressedButtonType = buttonType.OPERATOR;
+            return;
+        }  
+    }
+
+    updateCollatedInputDisplay(`${input.textContent} * `);
+    lastPressedButtonType = buttonType.OPERATOR;
+    return;
+});
+
+const divideButton = document.querySelector("#divide");
+divideButton.addEventListener("click", (e) => {
+    if (collatedInput.textContent === "") {
+        updateCollatedInputDisplay(`${input.textContent} / `);
+        lastPressedButtonType = buttonType.OPERATOR;
+        return;
+    }
+
+    let operator = extractOperator(collatedInput.textContent);
+
+    if (String(collatedInput.textContent).slice(-2, -1) === operator) {
+        if (lastPressedButtonType === buttonType.OPERATOR) {
+            collatedInput.textContent = collatedInput.textContent.replace(operator, "/");
+            lastPressedButtonType = buttonType.OPERATOR;
+            return;
+        }
+        if (lastPressedButtonType === buttonType.NUMBER) {
+            let collatedInputText = collatedInput.textContent + input.textContent;
+            let result = operate(collatedInputText);
+            updateCollatedInputDisplay(`${result} / `);
+            updateInputDisplay(result);
+            lastPressedButtonType = buttonType.OPERATOR;
+            return;
+        }  
+    }
+
+    updateCollatedInputDisplay(`${input.textContent} / `);
+    lastPressedButtonType = buttonType.OPERATOR;
+    return;
+});
+
+const operateButton = document.querySelector("#operate");
+operateButton.addEventListener("click", (e) => {
+    if (lastPressedButtonType === "") {
+        updateCollatedInputDisplay(`${input.textContent} =`);
+        lastPressedButtonType = buttonType.OTHER;
+        return;
+    }
+    
+    if (lastPressedButtonType === buttonType.NUMBER) {
+        let operator = extractOperator(collatedInput.textContent);
+
+        if (collatedInput.textContent && String(collatedInput.textContent).slice(-2, -1) === operator) {
+            let inputText = collatedInput.textContent + input.textContent;
+            let result = operate(inputText);
+
+            updateCollatedInputDisplay(`${inputText} =`);
+            updateInputDisplay(`${result}`);
+            lastPressedButtonType = buttonType.OTHER;
+            return;
+        }
+
+        if (Number(input.textContent) === 0) {
+            updateCollatedInputDisplay("0 =");
+            updateInputDisplay("0");
+            lastPressedButtonType = buttonType.OTHER;
+            return;
+        }
+
+        updateCollatedInputDisplay(`${input.textContent} =`);
+        lastPressedButtonType = buttonType.OTHER;
+        return;
+    }
+    
+    if (lastPressedButtonType === buttonType.OTHER) {
+        if (Number(input.textContent) === 0) {
+            updateCollatedInputDisplay("0 =");
+            updateInputDisplay("0");
+            lastPressedButtonType = buttonType.OTHER;
+            return;
+        }
+
+        if (hasOperator(collatedInput.textContent)) {
+            let prevResult = input.textContent;
+            let inputParts = extractInputParts(collatedInput.textContent.slice(0, -1));
+            let newInputText = prevResult + inputParts[1] + inputParts[2];
+            let result = operate(newInputText);
+
+            updateCollatedInputDisplay(`${prevResult} ${inputParts[1].trim()} ${inputParts[2]} =`);
+            updateInputDisplay(result);
+            lastPressedButtonType = buttonType.OTHER;
+            return;
+        }
+    }
 });
 
 function add(a, b) {
-    return a + b;
+    const result = a + b;
+    if (isFloat(result)) {
+        const split = String(result).split(".");
+        if (split[1].length > 4) {
+            return result.toFixed(4);
+        }
+    }
+    return result;
 }
 
 function subtract(a, b) {
-    return a - b;
+    const result = a - b;
+    if (isFloat(result)) {
+        const split = String(result).split(".");
+        if (split[1].length > 4) {
+            return result.toFixed(4);
+        }
+    }
+    return result;
 }
 
 function multiply(a, b) {
-    return a * b;
+    const result = a * b;
+    if (isFloat(result)) {
+        const split = String(result).split(".");
+        if (split[1].length > 4) {
+            return result.toFixed(4);
+        }
+    }
+    return result;
 }
 
 function divide(a, b) {
-    return a / b;
-}
-
-function extractOperator(input) {
-    let operator = operators.filter(operator => input.includes(operator))[0];
-    if (!operator) {
-        return "";
+    const result = a / b;
+    if (isFloat(result)) {
+        const split = String(result).split(".");
+        if (split[1].length > 4) {
+            return result.toFixed(4);
+        }
     }
-    return operator;
-}
-
-function extractInputParts(input) {
-    let operator = extractOperator(input);
-    if (operator === "") {
-        return [input];
-    }
-    let operands = input.split(operator);
-    operands.splice(1, 0, operator);
-    return operands;
+    return result;
 }
 
 function updateCollatedInputDisplay(data) {
@@ -119,11 +391,6 @@ function appendCollatedInputDisplay(data) {
 }
 
 function updateInputDisplay(data) {
-    if (typeof data === "number" && isFloat(data)) {
-        input.textContent = data.toFixed(4);
-        return
-    }
-
     input.textContent = data;
 }
 
@@ -149,6 +416,32 @@ function isFloat(num) {
     return num % 1 !== 0;
 }
 
+function hasOperator(input) {
+    let operator = operators.filter(operator => input.includes(operator))[0];
+    if (!operator) {
+        return false;
+    }
+    return true;
+}
+
+function extractOperator(input) {
+    let operator = operators.filter(operator => input.includes(operator))[0];
+    if (!operator) {
+        return "";
+    }
+    return operator;
+}
+
+function extractInputParts(input) {
+    let operator = extractOperator(input);
+    if (operator === "") {
+        return [input];
+    }
+    let operands = input.split(operator);
+    operands.splice(1, 0, operator);
+    return operands;
+}
+
 function operate(input) {
     const inputParts = extractInputParts(input);
 
@@ -157,8 +450,7 @@ function operate(input) {
     let operator;
 
     if (inputParts.length === 1) {
-        updateInputDisplay(input, a);
-        return;
+        return a;
     }
 
     if (inputParts.length > 1) {
@@ -168,23 +460,17 @@ function operate(input) {
 
     switch(operator) {
         case "+":
-            updateInputDisplay(add(a, b));
-            return;
+            return add(a, b);
         case "-":
-            updateInputDisplay(subtract(a, b));
-            return;
+            return subtract(a, b);
         case "*":
-            updateInputDisplay(multiply(a, b));
-            return;
+            return multiply(a, b);
         case "/":
             if (b === 0) {
-                updateInputDisplay("baka");
-                return;
+                return "baka";
             }
-            updateInputDisplay(divide(a, b));
-            return;
+            return divide(a, b);
         default:
-            updateInputDisplay("err");
-            return;
+            return "err";
     }
 }
