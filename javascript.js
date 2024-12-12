@@ -132,7 +132,8 @@ period.addEventListener("click", (e) => {
 
     if ((lastPressedButtonType === "" || lastPressedButtonType === buttonType.OPERATOR) ||
         (lastPressedButtonType === buttonType.DELETOR && input.textContent === "0") ||
-        (lastPressedButtonType === buttonType.NUMBER && input.textContent === "0")) {
+        (lastPressedButtonType === buttonType.NUMBER && input.textContent === "0") ||
+        (lastPressedButtonType === buttonType.EXECUTOR)) {
         updateInputDisplay("0.");
     }
 
