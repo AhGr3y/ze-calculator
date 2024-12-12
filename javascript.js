@@ -154,6 +154,9 @@ ac.addEventListener("click", (e) => {
 
 const del = document.querySelector("#delete");
 del.addEventListener("click", (e) => {
+    if (lastPressedButtonType === buttonType.OPERATOR) {
+        return;
+    }
     deleteDisplayFromRight();
     lastPressedButtonType = buttonType.DELETOR;
 });
