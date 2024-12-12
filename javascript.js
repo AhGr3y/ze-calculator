@@ -3,7 +3,8 @@ const buttonType = {
     NUMBER: "number",
     OPERATOR: "operator",
     DELETOR: "deletor",
-    OTHER: "other",
+    EXECUTOR: "execute",
+    SYMBOL: "symbol",
 };
 
 let lastPressedButtonType = "";
@@ -130,17 +131,17 @@ const period = document.querySelector("#period");
 period.addEventListener("click", (e) => {
     if (lastPressedButtonType === "" || lastPressedButtonType === buttonType.OPERATOR) {
         updateInputDisplay("0.");
-        lastPressedButtonType = buttonType.OTHER;
+        lastPressedButtonType = buttonType.SYMBOl;
         return;
     }
     if (lastPressedButtonType === buttonType.DELETOR && input.textContent === "0") {
         updateInputDisplay("0.");
-        lastPressedButtonType = buttonType.OTHER;
+        lastPressedButtonType = buttonType.SYMBOL;
         return;
     }
     if (!String(input.textContent).includes(".")) {
         appendInputDisplay(period.value);
-        lastPressedButtonType = buttonType.OTHER;
+        lastPressedButtonType = buttonType.SYMBOL;
         return;
     }
 });
@@ -155,6 +156,10 @@ ac.addEventListener("click", (e) => {
 const del = document.querySelector("#delete");
 del.addEventListener("click", (e) => {
     if (lastPressedButtonType === buttonType.OPERATOR) {
+        return;
+    }
+    if (lastPressedButtonType === buttonType.EXECUTOR) {
+        updateCollatedInputDisplay("");
         return;
     }
     deleteDisplayFromRight();
@@ -290,7 +295,7 @@ const operateButton = document.querySelector("#operate");
 operateButton.addEventListener("click", (e) => {
     if (lastPressedButtonType === "") {
         updateCollatedInputDisplay(`${input.textContent} =`);
-        lastPressedButtonType = buttonType.OTHER;
+        lastPressedButtonType = buttonType.EXECUTOR;
         return;
     }
     
@@ -303,27 +308,27 @@ operateButton.addEventListener("click", (e) => {
 
             updateCollatedInputDisplay(`${inputText} =`);
             updateInputDisplay(`${result}`);
-            lastPressedButtonType = buttonType.OTHER;
+            lastPressedButtonType = buttonType.EXECUTOR;
             return;
         }
 
         if (Number(input.textContent) === 0) {
             updateCollatedInputDisplay("0 =");
             updateInputDisplay("0");
-            lastPressedButtonType = buttonType.OTHER;
+            lastPressedButtonType = buttonType.EXECUTOR;
             return;
         }
 
         updateCollatedInputDisplay(`${input.textContent} =`);
-        lastPressedButtonType = buttonType.OTHER;
+        lastPressedButtonType = buttonType.EXECUTOR;
         return;
     }
     
-    if (lastPressedButtonType === buttonType.OTHER) {
+    if (lastPressedButtonType === buttonType.SYMBOL) {
         if (Number(input.textContent) === 0) {
             updateCollatedInputDisplay("0 =");
             updateInputDisplay("0");
-            lastPressedButtonType = buttonType.OTHER;
+            lastPressedButtonType = buttonType.EXECUTOR;
             return;
         }
 
@@ -335,7 +340,7 @@ operateButton.addEventListener("click", (e) => {
 
             updateCollatedInputDisplay(`${prevResult} ${inputParts[1].trim()} ${inputParts[2]} =`);
             updateInputDisplay(result);
-            lastPressedButtonType = buttonType.OTHER;
+            lastPressedButtonType = buttonType.EXECUTOR;
             return;
         }
     }
