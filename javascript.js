@@ -331,11 +331,18 @@ operateButton.addEventListener("click", (e) => {
             lastPressedButtonType = buttonType.EXECUTOR;
             return;
         }
+    }
 
+    if (lastPressedButtonType === buttonType.EXECUTOR) {
+
+        // BEFORE               AFTER
+        // top: 1 + 2 =         top: 3 + 2 =
+        // bottom: 3            bottom: 5
+        // last button: =       last button: =
         if (hasOperator(collatedInput.textContent)) {
             let prevResult = input.textContent;
             let inputParts = extractInputParts(collatedInput.textContent.slice(0, -1));
-            let newInputText = prevResult + inputParts[1] + inputParts[2];
+            let newInputText = `${prevResult.trim()} ${inputParts[1].trim()} ${inputParts[2].trim()}`;
             let result = operate(newInputText);
 
             updateCollatedInputDisplay(`${prevResult} ${inputParts[1].trim()} ${inputParts[2]} =`);
@@ -343,6 +350,7 @@ operateButton.addEventListener("click", (e) => {
             lastPressedButtonType = buttonType.EXECUTOR;
             return;
         }
+
     }
 });
 
@@ -433,21 +441,29 @@ function hasOperator(input) {
 }
 
 function extractOperator(input) {
-    let operator = operators.filter(operator => input.includes(operator))[0];
-    if (!operator) {
-        return "";
-    }
+    // split input by " "
+    // loop thru each item
+    // for each item, loop thru operators
+    // if item === operator, return item
+    let operator = "";
+    let split = input.split(" ");
+    split.forEach(elem => {
+        operators.forEach(op => {
+            if (elem === op) {
+                operator = elem;
+            }
+        })
+    });
+
     return operator;
 }
 
 function extractInputParts(input) {
-    let operator = extractOperator(input);
-    if (operator === "") {
+    if (!hasOperator(input)) {
         return [input];
     }
-    let operands = input.split(operator);
-    operands.splice(1, 0, operator);
-    return operands;
+
+    return input.split(" ");
 }
 
 function operate(input) {
