@@ -15,7 +15,7 @@ updateInputDisplay("0");
 
 const zero = document.querySelector("#zero");
 zero.addEventListener("click", (e) => {
-    if (lastPressedButtonType === buttonType.OPERATOR) {
+    if (lastPressedButtonType === buttonType.OPERATOR || lastPressedButtonType === buttonType.EXECUTOR) {
         updateInputDisplay(zero.value);
         lastPressedButtonType = buttonType.NUMBER;
         return;
@@ -30,7 +30,7 @@ zero.addEventListener("click", (e) => {
 
 const one = document.querySelector("#one");
 one.addEventListener("click", (e) => {
-    if (lastPressedButtonType === buttonType.OPERATOR) {
+    if (lastPressedButtonType === buttonType.OPERATOR || lastPressedButtonType === buttonType.EXECUTOR) {
         updateInputDisplay(one.value);
         lastPressedButtonType = buttonType.NUMBER;
         return;
@@ -41,7 +41,7 @@ one.addEventListener("click", (e) => {
 
 const two = document.querySelector("#two");
 two.addEventListener("click", (e) => {
-    if (lastPressedButtonType === buttonType.OPERATOR) {
+    if (lastPressedButtonType === buttonType.OPERATOR || lastPressedButtonType === buttonType.EXECUTOR) {
         updateInputDisplay(two.value);
         lastPressedButtonType = buttonType.NUMBER;
         return;
@@ -52,7 +52,7 @@ two.addEventListener("click", (e) => {
 
 const three = document.querySelector("#three");
 three.addEventListener("click", (e) => {
-    if (lastPressedButtonType === buttonType.OPERATOR) {
+    if (lastPressedButtonType === buttonType.OPERATOR || lastPressedButtonType === buttonType.EXECUTOR) {
         updateInputDisplay(three.value);
         lastPressedButtonType = buttonType.NUMBER;
         return;
@@ -63,7 +63,7 @@ three.addEventListener("click", (e) => {
 
 const four = document.querySelector("#four");
 four.addEventListener("click", (e) => {
-    if (lastPressedButtonType === buttonType.OPERATOR) {
+    if (lastPressedButtonType === buttonType.OPERATOR || lastPressedButtonType === buttonType.EXECUTOR) {
         updateInputDisplay(four.value);
         lastPressedButtonType = buttonType.NUMBER;
         return;
@@ -74,7 +74,7 @@ four.addEventListener("click", (e) => {
 
 const five = document.querySelector("#five");
 five.addEventListener("click", (e) => {
-    if (lastPressedButtonType === buttonType.OPERATOR) {
+    if (lastPressedButtonType === buttonType.OPERATOR || lastPressedButtonType === buttonType.EXECUTOR) {
         updateInputDisplay(five.value);
         lastPressedButtonType = buttonType.NUMBER;
         return;
@@ -85,7 +85,7 @@ five.addEventListener("click", (e) => {
 
 const six = document.querySelector("#six");
 six.addEventListener("click", (e) => {
-    if (lastPressedButtonType === buttonType.OPERATOR) {
+    if (lastPressedButtonType === buttonType.OPERATOR || lastPressedButtonType === buttonType.EXECUTOR) {
         updateInputDisplay(six.value);
         lastPressedButtonType = buttonType.NUMBER;
         return;
@@ -96,7 +96,7 @@ six.addEventListener("click", (e) => {
 
 const seven = document.querySelector("#seven");
 seven.addEventListener("click", (e) => {
-    if (lastPressedButtonType === buttonType.OPERATOR) {
+    if (lastPressedButtonType === buttonType.OPERATOR || lastPressedButtonType === buttonType.EXECUTOR) {
         updateInputDisplay(seven.value);
         lastPressedButtonType = buttonType.NUMBER;
         return;
@@ -107,7 +107,7 @@ seven.addEventListener("click", (e) => {
 
 const eight = document.querySelector("#eight");
 eight.addEventListener("click", (e) => {
-    if (lastPressedButtonType === buttonType.OPERATOR) {
+    if (lastPressedButtonType === buttonType.OPERATOR || lastPressedButtonType === buttonType.EXECUTOR) {
         updateInputDisplay(eight.value);
         lastPressedButtonType = buttonType.NUMBER;
         return;
@@ -118,7 +118,7 @@ eight.addEventListener("click", (e) => {
 
 const nine = document.querySelector("#nine");
 nine.addEventListener("click", (e) => {
-    if (lastPressedButtonType === buttonType.OPERATOR) {
+    if (lastPressedButtonType === buttonType.OPERATOR || lastPressedButtonType === buttonType.EXECUTOR) {
         updateInputDisplay(nine.value);
         lastPressedButtonType = buttonType.NUMBER;
         return;
