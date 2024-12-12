@@ -333,6 +333,22 @@ operateButton.addEventListener("click", (e) => {
         }
     }
 
+    if (lastPressedButtonType === buttonType.OPERATOR) {
+
+        // BEFORE               AFTER
+        // top: 2 +             top: 2 + 2 =
+        // bottom: 2            bottom: 4
+        // last button: +       last button: =
+        const firstNum = collatedInput.textContent.split(" ")[0];
+        const inputText = `${collatedInput.textContent} ${firstNum}`;
+        const result = operate(inputText);
+
+        updateCollatedInputDisplay(`${collatedInput.textContent}${result} =`);
+        updateInputDisplay(result);
+        lastPressedButtonType = buttonType.EXECUTOR;
+        return;
+    }
+
     if (lastPressedButtonType === buttonType.EXECUTOR) {
 
         // BEFORE               AFTER
