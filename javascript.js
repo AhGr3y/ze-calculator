@@ -129,18 +129,19 @@ nine.addEventListener("click", (e) => {
 
 const period = document.querySelector("#period");
 period.addEventListener("click", (e) => {
+
     if ((lastPressedButtonType === "" || lastPressedButtonType === buttonType.OPERATOR) ||
         (lastPressedButtonType === buttonType.DELETOR && input.textContent === "0") ||
         (lastPressedButtonType === buttonType.NUMBER && input.textContent === "0")) {
         updateInputDisplay("0.");
-        lastPressedButtonType = buttonType.SYMBOl;
-        return;
     }
+
     if (!String(input.textContent).includes(".")) {
         appendInputDisplay(period.value);
-        lastPressedButtonType = buttonType.SYMBOL;
-        return;
+        
     }
+
+    lastPressedButtonType = buttonType.SYMBOL;
 });
 
 const ac = document.querySelector("#clear");
@@ -296,11 +297,15 @@ operateButton.addEventListener("click", (e) => {
         return;
     }
     
-    if (lastPressedButtonType === buttonType.NUMBER) {
+    if (lastPressedButtonType === buttonType.NUMBER || lastPressedButtonType === buttonType.SYMBOL) {
         let operator = extractOperator(collatedInput.textContent);
 
+        // BEFORE               AFTER
+        // top: 1 +             top: 1 + 2 =
+        // bottom: 2            bottom: 3
+        // last button: 2       last button: =
         if (collatedInput.textContent && String(collatedInput.textContent).slice(-2, -1) === operator) {
-            let inputText = collatedInput.textContent + input.textContent;
+            let inputText = `${collatedInput.textContent}${Number(input.textContent)}`;
             let result = operate(inputText);
 
             updateCollatedInputDisplay(`${inputText} =`);
@@ -309,6 +314,10 @@ operateButton.addEventListener("click", (e) => {
             return;
         }
 
+        // BEFORE               AFTER
+        // top:                 top: 0 =
+        // bottom: 0 or 0.0     bottom: 0
+        // last button: 0       last button: =
         if (Number(input.textContent) === 0) {
             updateCollatedInputDisplay("0 =");
             updateInputDisplay("0");
@@ -321,14 +330,14 @@ operateButton.addEventListener("click", (e) => {
         return;
     }
     
-    if (lastPressedButtonType === buttonType.SYMBOL) {
-        if (Number(input.textContent) === 0) {
-            updateCollatedInputDisplay("0 =");
-            updateInputDisplay("0");
-            lastPressedButtonType = buttonType.EXECUTOR;
-            return;
-        }
-    }
+    // if (lastPressedButtonType === buttonType.SYMBOL) {
+    //     if (Number(input.textContent) === 0) {
+    //         updateCollatedInputDisplay("0 =");
+    //         updateInputDisplay("0");
+    //         lastPressedButtonType = buttonType.EXECUTOR;
+    //         return;
+    //     }
+    // }
 
     if (lastPressedButtonType === buttonType.OPERATOR) {
 
