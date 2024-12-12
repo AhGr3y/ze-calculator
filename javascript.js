@@ -10,6 +10,7 @@ const buttonType = {
 let lastPressedButtonType = "";
 let collatedInput = document.querySelector("#collated-input");
 let input = document.querySelector("#input");
+let clickEvent = new Event("click");
 
 updateInputDisplay("0");
 
@@ -374,6 +375,72 @@ operateButton.addEventListener("click", (e) => {
             return;
         }
 
+    }
+});
+
+document.addEventListener("keydown", (e) => {
+    console.log(e.key);
+    switch(e.key) {
+        case "Backspace":
+            del.dispatchEvent(clickEvent);
+            break;
+        case "Delete":
+        case "Escape":
+            ac.dispatchEvent(clickEvent);
+            break;
+    }
+});
+
+document.addEventListener("keypress", (e) => {
+    switch(e.key) {
+        case "0":
+            zero.dispatchEvent(clickEvent);
+            break;
+        case "1":
+            one.dispatchEvent(clickEvent);
+            break;
+        case "2":
+            two.dispatchEvent(clickEvent);
+            break;
+        case "3":
+            three.dispatchEvent(clickEvent);
+            break;
+        case "4":
+            four.dispatchEvent(clickEvent);
+            break;
+        case "5":
+            five.dispatchEvent(clickEvent);
+            break;
+        case "6":
+            six.dispatchEvent(clickEvent);
+            break;
+        case "7":
+            seven.dispatchEvent(clickEvent);
+            break;
+        case "8":
+            eight.dispatchEvent(clickEvent);
+            break;
+        case "9":
+            nine.dispatchEvent(clickEvent);
+            break;
+        case "+":
+            addButton.dispatchEvent(clickEvent);
+            break;
+        case "-":
+            subtractButton.dispatchEvent(clickEvent);
+            break;
+        case "*":
+            multiplyButton.dispatchEvent(clickEvent);
+            break;
+        case "/":
+            divideButton.dispatchEvent(clickEvent);
+            break;
+        case ".":
+            period.dispatchEvent(clickEvent);
+            break;
+        case "Enter":
+            operateButton.dispatchEvent(clickEvent);
+            break;
     }
 });
 
