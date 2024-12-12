@@ -129,14 +129,11 @@ nine.addEventListener("click", (e) => {
 
 const period = document.querySelector("#period");
 period.addEventListener("click", (e) => {
-    if (lastPressedButtonType === "" || lastPressedButtonType === buttonType.OPERATOR) {
+    if ((lastPressedButtonType === "" || lastPressedButtonType === buttonType.OPERATOR) ||
+        (lastPressedButtonType === buttonType.DELETOR && input.textContent === "0") ||
+        (lastPressedButtonType === buttonType.NUMBER && input.textContent === "0")) {
         updateInputDisplay("0.");
         lastPressedButtonType = buttonType.SYMBOl;
-        return;
-    }
-    if (lastPressedButtonType === buttonType.DELETOR && input.textContent === "0") {
-        updateInputDisplay("0.");
-        lastPressedButtonType = buttonType.SYMBOL;
         return;
     }
     if (!String(input.textContent).includes(".")) {
